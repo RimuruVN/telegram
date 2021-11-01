@@ -55,21 +55,21 @@ try:
     api_hash = cpass['cred']['hash']
     phones = [i.split(".")[0] for i in glob.glob("*.session")]
     print("=================================")
-    print(f"any other number of custom phone")
+    print(f"Bất kỳ số điện thoại tùy chỉnh nào khác")
     for _index, i in enumerate(phones):
         print(f"{gr}{_index}. {i} ")
     try:
-        index_name = int(input(f"{re}Enter : "))
+        index_name = int(input(f"{re}Nhập : "))
         phone = phones[index_name]
     except:
-        phone = input(f"{re} phone with country code : ")
+        phone = input(f"{re} Số điện thoại có mã quốc gia : ")
         
-    print("selected phone is : ",phone)
+    print("Số điện thoại đã chọn là : ",phone)
     client = TelegramClient(phone, api_id, api_hash)
 except KeyError:
     os.system('clear')
     banner()
-    print(re+"[!] run python3 setup.py first !!\n")
+    print(re+"[!] Chạy python3 setup.py trước!!\n")
     sys.exit(1)
 
 client.connect()
@@ -80,7 +80,7 @@ if not client.is_user_authorized():
     #banner()
     client.sign_in(phone)
     try:
-        client.sign_in(code=input('Enter code: '))
+        client.sign_in(code=input('Nhập code: '))
     except SessionPasswordNeededError:
         client.sign_in(password=getpass.getpass())
 try:
@@ -113,36 +113,36 @@ for chat in chats:
     except:
         continue
  
-print(gr+'[+] Choose a group to scrape members :'+re)
+print(gr+'[+] Chọn một nhóm để cạo thành viên :'+re)
 i=0
 for g in groups:
     print(gr+'['+cy+str(i)+']' + ' - ' + g.title)
     i+=1
  
 print('')
-g_index = input(gr+"[+] Enter a Number : "+re)
+g_index = input(gr+"[+] Nhập một số : "+re)
 target_group=groups[int(g_index)]
  
-print(gr+'[+] Fetching Members...')
+print(gr+'[+] Tìm nạp thành viên...')
 time.sleep(1)
 all_participants = []
 all_participants = client.get_participants(target_group, aggressive=True)
  
-print(gr+'[+] Saving In file...')
+print(gr+'[+] Lưu trong tệp...')
 time.sleep(1)
 with open("members.csv","w",encoding='UTF-8') as f:
     writer = csv.writer(f,delimiter=",",lineterminator="\n")
     writer.writerow(['username','user id', 'access hash','name','group', 'group id'])
-    seens = ['1 day', "2 days","7 days", "15 dasy"]
+    seens = ['1 ngày', "2 ngày","7 ngày", "15 ngày"]
     for _index, i in enumerate(seens):
         print(f"{gr}{_index}. {i} ")
     try:
-        index_name = int(input(f"{re}Enter : "))
+        index_name = int(input(f"{re}Nhập : "))
         seen = int(seens[index_name].split(" ")[0])
-        print("selected {}".format(seen))
+        print("Chọn {}".format(seen))
     except:
         seen = 0
-        print(re+"selected  all users ")
+        print(re+"Đã chọn tất cả người dùng ")
     for user in all_participants:
         try:
             if seen != 0:
@@ -170,4 +170,4 @@ with open("members.csv","w",encoding='UTF-8') as f:
             last_name= ""
         name= (first_name + ' ' + last_name).strip()
         writer.writerow([username,user.id,user.access_hash,name,target_group.title, target_group.id])      
-print(gr+'[+] Members scraped successfully. Subscribe CodingBeast Youtube Channel For Add Members')
+print(gr+'[+] Thành viên đã được cạo thành công. Đăng ký kênh Youtube CodingBeast để thêm thành viên')
