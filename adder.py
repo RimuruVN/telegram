@@ -38,26 +38,26 @@ print (cy+"Make sure you Subscribed CodingBeast On Youtube")
 print (cy+"www.youtube.com/codingbeast")
 
 print (re+"NOTE :")
-print ("1. Telegram only allow to add 200 members in group by one user.")
-print ("2. You can Use multiple Telegram accounts for add more members.")
-print ("3. Add only 50 members in group each time otherwise you will get flood error.")
-print ("4. Then wait for 15-30 miniute then add members again.")
-print ("5. Make sure you enable Add User Permission in your group")
+print ("1. Telegram chỉ cho phép một người dùng thêm 200 thành viên trong nhóm.")
+print ("2. Bạn có thể Sử dụng nhiều tài khoản Telegram để thêm nhiều thành viên.")
+print ("3. Chỉ thêm 50 thành viên trong nhóm mỗi lần nếu không bạn sẽ gặp phải lỗi ngập lụt.")
+print ("4. Sau đó đợi miniute từ 15-30 rồi thêm thành viên lại.")
+print ("5. Đảm bảo rằng bạn bật Thêm quyền của người dùng trong nhóm của mình")
 
 cpass = configparser.RawConfigParser()
 cpass.read('config.data')
 phones = [i.split(".")[0] for i in glob.glob("*.session")]
 print("=================================")
-print(f"any other number of custom phone")
+print(f"Bất kỳ số điện thoại tùy chỉnh nào khác")
 for _index, i in enumerate(phones):
     print(f"{gr}{_index}. {i} ")
 try:
     index_name = int(input(re+"Enter : "))
     phone = phones[index_name]
 except:
-    phone = input(re+" phone with country code : ")
+    phone = input(re+" Số điện thoại có mã quốc gia : ")
     
-print(cy+"selected phone is : ",phone)
+print(cy+"Số điện thoại đã chọn là: ",phone)
 
 try:
     api_id = cpass['cred']['id']
@@ -67,7 +67,7 @@ try:
 except KeyError:
     os.system('clear')
     #banner()
-    print(re+"[!] run python setup.py first !!\n")
+    print(re+"[!] Chạy python setup.py trước !!\n")
     sys.exit(1)
 
 client.connect()
@@ -78,7 +78,7 @@ if not client.is_user_authorized():
     #banner()
     client.sign_in(phone)
     try:
-        client.sign_in(code=input('Enter code: '))
+        client.sign_in(code=input('Nhập mã: '))
     except SessionPasswordNeededError:
         client.sign_in(password=getpass.getpass())
   
@@ -116,13 +116,13 @@ for chat in chats:
     except:
         continue
 
-print(gr+'Choose a group to add members:'+cy)
+print(gr+'Chọn một nhóm để thêm thành viên:'+cy)
 i = 0
 for group in groups:
     print(str(i) + '- ' + group.title)
     i += 1
 
-g_index = input(gr+"Enter a Number: "+re)
+g_index = input(gr+"Nhập một số: "+re)
 target_group = groups[int(g_index)]
 
 target_group_entity = InputPeerChannel(target_group.id, target_group.access_hash)
@@ -136,7 +136,7 @@ for user in users:
              with open("back.log", "r") as read:
                    ids = [i.strip("\n") for i in read.readlines()]
              if user['username'] in ids:
-                   print("user already invited skiped..........")
+                   print("Người dùng đã được mời đã bị bỏ qua..........")
                    continue
     n += 1
     if n % 80 == 0:
@@ -150,31 +150,31 @@ for user in users:
         elif mode == 2:
             user_to_add = InputPeerUser(user['id'], user['access_hash'])
         else:
-            sys.exit("Invalid Mode Selected. Please Try Again.")
+            sys.exit("Đã chọn chế độ không hợp lệ. Vui lòng thử lại.")
 
         client(InviteToChannelRequest(target_group_entity, [user_to_add]))
-        print("Waiting for 60-180 Seconds...")
+        print("Chờ 60-180 giây ...")
         with open("back.log","a") as rp:
              rp.write(user['username'] +"\n")
         time.sleep(random.randrange(0, 5))
     except PeerFloodError:
         SLEEP_TIME_2 = 60
-        print("Getting Flood Error from telegram. Script is stopping now. Please try again after some time.")
-        print("Waiting {} seconds".format(SLEEP_TIME_2))
+        print("Nhận lỗi lũ lụt từe điện tín. Tập lệnh hiện đang dừng. Vui lòng thử lại sau một thời gian.")
+        print("Đang chờ đợi {} giây".format(SLEEP_TIME_2))
         time.sleep(SLEEP_TIME_2)
         with open("back.log","a") as rp:
              rp.write(user['username'] +"\n")
         client.disconnect()
         sys.exit()
     except UserPrivacyRestrictedError:
-        print("The user's privacy settings do not allow you to do this. Skipping.")
-        print("Waiting for 5 Seconds...")
+        print("Cài đặt quyền riêng tư của người dùng không cho phép bạn làm điều này. Bỏ qua.")
+        print("Chờ trong 5 giây...")
         time.sleep(random.randrange(0, 5))
         with open("back.log","a") as rp:
              rp.write(user['username'] +"\n")
     except:
         traceback.print_exc()
-        print("Unexpected Error")
+        print("Lỗi không mong đợi")
         with open("back.log","a") as rp:
              rp.write(user['username'] +"\n")
         continue
